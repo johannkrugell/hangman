@@ -27,13 +27,20 @@ class Game
 
   private
 
-  def play_round(_game_object)
+  def exit_game
+    puts 'Goodbye'
+  end
+
+  def play_round(game_object)
     dictionary = Dictionary.new
-    dictionary.dictionary
+    sample_word(dictionary)
     puts 'playing a round'
   end
 
-  def exit_game
-    puts 'Goodbye'
+  def sample_word(dictionary)
+    @word = dictionary.dictionary.select do |element|
+      element.length <= 12 && element.length >= 5
+    end
+    @word = @word.sample(1)
   end
 end
