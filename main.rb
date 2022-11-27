@@ -3,5 +3,5 @@
 require './lib/game'
 require 'pry'
 
-@game = Game.new(0, '', '', [])
+@game = Game.new(0, '', [], [])
 @game.play_game?(@game)
