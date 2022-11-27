@@ -21,14 +21,20 @@ class Game
     @guessed = guessed
   end
 
-  def play_game?(game_object)
+  def play_game?(game_object, prompt)
     game_title
-    puts 'Would you like to play Hangman?'
+    puts prompt
     puts "(\e[32m y \e[0m/\e[31m n \e[0m)"
     validate_input(%w[y n]) == 'y' ? play_round(game_object) : exit_game
   end
 
   private
+
+  def check_winner
+    puts 'You win!' if @word.join.split(//).eql?(@guess)
+    @game = Game.new(0, '', [], [])
+    @game.play_game?(@game, 'Would you like to play again?')
+  end
 
   def empty_guess_array
     @word.join.length.times do
@@ -60,6 +66,7 @@ class Game
       update_display(game_object, 'Please enter a letter')
       @round += 1
     end
+    check_winner
   end
 
   def sample_word(dictionary)
