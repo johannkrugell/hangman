@@ -19,9 +19,12 @@ module Display
     \e[0m"
   end
 
-  def update_terminal(game_object)
+  def update_display(game_object, prompt)
     clear_display
-    puts game_object.guess.join
-    puts 'Please enter your a letter'
+    puts "\e[31mGuess:\e[0m #{@round}  \e[34mWord: #{game_object.guess.join.upcase}\e[0m"
+    puts ''
+    puts "You guessed: #{game_object.guessed.join(', ')}"
+    puts ''
+    puts prompt
   end
 end

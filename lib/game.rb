@@ -30,23 +30,36 @@ class Game
 
   private
 
+  def empty_guess_array
+    @word.join.length.times do
+      @guess << ' _ '
+    end
+  end
+
   def exit_game
     puts 'Goodbye'
   end
 
   def guess_letter(game_object)
-    @word.join.length.times do
-      @guess << ' _ '
+    if @guess.empty?
+      empty_guess_array
+      update_display(game_object, 'Please enter a letter')
+    else
+      validate_input(%w[a b c d e f g h i j k l m n o p q r s t u v w x y z])
+      update_guess(game_object, @response.upcase)
+      @guessed << @response.upcase
     end
-    update_terminal(game_object)
-    validate_input(%w[a b c d e f g h i j k l m n o p q r s t u v w x y z])
-    @guessed << @response
   end
 
   def play_round(game_object)
     dictionary = Dictionary.new
     sample_word(dictionary)
-    guess_letter(game_object)
+    @round = 0
+    while round <= @word.join.split(//).uniq.length
+      guess_letter(game_object)
+      update_display(game_object, 'Please enter a letter')
+      @round += 1
+    end
   end
 
   def sample_word(dictionary)
@@ -54,5 +67,11 @@ class Game
       element.length <= 12 && element.length >= 5
     end
     @word = @word.sample(1)
+  end
+
+  def update_guess(_game_object, _response)
+    @word.join.split(//).each_with_index do |letter, index|
+      @guess[index] = @response if letter == @response
+    end
   end
 end
