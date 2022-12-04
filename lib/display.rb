@@ -19,15 +19,17 @@ module Display
     \e[0m"
   end
 
-  def update_display(game_object, prompt)
+  def update_display(game_object, prompt, cursor_position)
     clear_display
     puts "\e[31mGuess:\e[0m #{@round}  \e[34mWord: #{game_object.guess.join.upcase}\e[0m"
     puts ''
     puts "You guessed: #{game_object.guessed.join(', ')}"
     puts ''
     puts prompt
+    puts ''
     display_tree
     display_apples
+    $stdout.write cursor_position
   end
 
   def line_number
